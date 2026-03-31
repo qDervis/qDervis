@@ -28,6 +28,37 @@ document.querySelectorAll('a, button, .proj-item, .soc-item, .gal-item').forEach
 });
 
 
+// ── CURSOR İZ EFEKTİ ──
+const izler = [];
+const IZ_SAYISI = 12;
+for (let i = 0; i < IZ_SAYISI; i++) {
+  const iz = document.createElement('div');
+  iz.style.cssText = `
+    position:fixed;pointer-events:none;z-index:99990;
+    width:${6 - i * 0.4}px;height:${6 - i * 0.4}px;
+    background:rgba(201,168,76,${0.35 - i * 0.025});
+    border-radius:50%;top:0;left:0;
+    transform:translate(-50%,-50%);
+    transition:opacity .3s;
+  `;
+  document.body.appendChild(iz);
+  izler.push({ el: iz, x: 0, y: 0 });
+}
+
+(function izTick() {
+  let px = mx, py = my;
+  izler.forEach((iz, i) => {
+    const nx = px + (iz.x - px) * (0.35 + i * 0.04);
+    const ny = py + (iz.y - py) * (0.35 + i * 0.04);
+    iz.x = nx; iz.y = ny;
+    iz.el.style.left = nx + 'px';
+    iz.el.style.top  = ny + 'px';
+    px = nx; py = ny;
+  });
+  requestAnimationFrame(izTick);
+})();
+
+
 // ── PARALLAX ──
 window.addEventListener('scroll', () => {
   const foto = document.querySelector('.hero-foto');
@@ -72,12 +103,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     e.preventDefault();
     const pt = document.getElementById('pt');
     pt.classList.add('in');
-setTimeout(() => {
-  t.scrollIntoView({ behavior: 'instant' });
-  pt.classList.remove('in');
-  pt.classList.add('out');
-  setTimeout(() => pt.classList.remove('out'), 700);
-}, 600);
+    setTimeout(() => {
+      t.scrollIntoView({ behavior: 'instant' });
+      pt.classList.remove('in');
+      pt.classList.add('out');
+      setTimeout(() => pt.classList.remove('out'), 700);
+    }, 600);
   });
 });
 
@@ -117,6 +148,39 @@ const skillIO = new IntersectionObserver(entries => entries.forEach(e => {
 }), { threshold: .3 });
 
 document.querySelectorAll('#beceriler').forEach(b => skillIO.observe(b));
+
+
+// ── HARF HARF BAŞLIK ──
+function splitBaslik() {
+  document.querySelectorAll('.sec-title').forEach(el => {
+    if (el.closest('.sinema')) return;
+    const parcalar = el.innerHTML.split(/(<br\s*\/?>)/gi);
+    el.innerHTML = parcalar.map(parca => {
+      if (/<br\s*\/?>/.test(parca)) return parca;
+      return parca.split('').map(ch => {
+        if (ch === ' ') return '<span style="display:inline-block;width:.28em"> </span>';
+        return `<span class="harf" style="display:inline-block;opacity:0;transform:translateY(40px) rotate(8deg);transition:opacity .5s ease,transform .5s ease">${ch}</span>`;
+      }).join('');
+    }).join('');
+  });
+
+  const harfIO = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.harf').forEach((h, i) => {
+        setTimeout(() => {
+          h.style.opacity = '1';
+          h.style.transform = 'translateY(0) rotate(0deg)';
+        }, i * 38);
+      });
+      harfIO.unobserve(e.target);
+    }
+  }), { threshold: .15 });
+
+  document.querySelectorAll('.sec-title').forEach(el => {
+    if (!el.closest('.sinema')) harfIO.observe(el);
+  });
+}
+splitBaslik();
 
 
 // ── PROJE ÖNİZLEME ──
@@ -324,6 +388,66 @@ function shuffle(a) {
 }
 
 const sozler = [
+  {soz:'Beni öldürmeyen şey güçlendirir.',kisi:'Nietzsche',tarih:'MS 1888'},
+  {soz:'İnsan aşılması gereken bir şeydir.',kisi:'Nietzsche',tarih:'MS 1883'},
+  {soz:'Uçuruma uzun süre bakarsan, uçurum da sana bakar.',kisi:'Nietzsche',tarih:'MS 1886'},
+  {soz:'Acı çekmeden büyümek mümkün değildir.',kisi:'Nietzsche',tarih:'MS 1884'},
+  {soz:'Kalabalıktan kaç; kalabalık seni küçük yapar.',kisi:'Nietzsche',tarih:'MS 1883'},
+  {soz:'Konfor insanı öldürür; tehlike onu uyandırır.',kisi:'Nietzsche',tarih:'MS 1882'},
+  {soz:'Zayıflar intikam alır, güçlüler affeder, daha güçlüler unutur.',kisi:'Nietzsche',tarih:'MS 1887'},
+  {soz:'Kendine saygısı olmayanın başkasına saygısı da olmaz.',kisi:'Nietzsche',tarih:'MS 1886'},
+  {soz:'Çoğunluk yanılır; doğru olan her zaman yalnızdır.',kisi:'Nietzsche',tarih:'MS 1885'},
+  {soz:'Tanrı öldü ve onu biz öldürdük.',kisi:'Nietzsche',tarih:'MS 1882'},
+  {soz:'İnsanlar hakikati değil, rahatlatıcı yalanları tercih eder.',kisi:'Nietzsche',tarih:'MS 1886'},
+  {soz:'Sürü içgüdüsü üstün insanı her zaman bastırmaya çalışır.',kisi:'Nietzsche',tarih:'MS 1886'},
+  {soz:'Yaratmak için önce yıkman gerekir.',kisi:'Nietzsche',tarih:'MS 1883'},
+  {soz:'En derin düşünceler en sert acılardan doğar.',kisi:'Nietzsche',tarih:'MS 1884'},
+  {soz:'Hayatı sevmek için önce acıyı kucaklamalısın.',kisi:'Nietzsche',tarih:'MS 1882'},
+  {soz:'Savaş kazanılmadan önce zihinlerde kazanılır.',kisi:'Sun Tzu',tarih:'MÖ 500'},
+  {soz:'Düşmanını öldürmek istemiyorsan, onu anla.',kisi:'Sun Tzu',tarih:'MÖ 500'},
+  {soz:'Hız savaşın ruhudur; fırsatı kaçırmak ölümdür.',kisi:'Sun Tzu',tarih:'MÖ 500'},
+  {soz:'Liderin cesareti orduyu yarı kazandırır.',kisi:'Julius Caesar',tarih:'MÖ 50'},
+  {soz:'Savaş sanatı, düşmanı savaşmadan yenmektir.',kisi:'Sun Tzu',tarih:'MÖ 500'},
+  {soz:'En iyi generalin kazandığı savaş, hiç yapılmayan savaştır.',kisi:'Sun Tzu',tarih:'MÖ 500'},
+  {soz:'Ordunu besle, yoksa düşmanın seni besler.',kisi:'Napolyon Bonaparte',tarih:'MS 1800'},
+  {soz:'Rakibin güçlü olduğu yerde savaşma, zayıf olduğu yerde vur.',kisi:'Napolyon Bonaparte',tarih:'MS 1806'},
+  {soz:'Strateji olmadan güç, patlamaya hazır bir bombadır.',kisi:'Clausewitz',tarih:'MS 1832'},
+  {soz:'Kaybeden her savaşçı, önce zihninde yenik düşmüştür.',kisi:'Miyamoto Musashi',tarih:'MS 1645'},
+  {soz:'Kılıcını çekmeden düşmanını öldür.',kisi:'Miyamoto Musashi',tarih:'MS 1645'},
+  {soz:'Savaşçı ölümden korkmaz, anlamsız yaşamaktan korkar.',kisi:'Miyamoto Musashi',tarih:'MS 1645'},
+  {soz:'Hayat adil değildir. Bunu ne kadar erken öğrenirsen o kadar iyidir.',kisi:'John F. Kennedy',tarih:'MS 1963'},
+  {soz:'İnsanlar seni sevdiği için değil, işlerine geldiği için yanındadır.',kisi:'Machiavelli',tarih:'MS 1513'},
+  {soz:'Zayıflık bir seçimdir, güç de.',kisi:'Marcus Aurelius',tarih:'MS 170'},
+  {soz:'Acı veren gerçek, tatlı yalandan bin kat iyidir.',kisi:'Dostoyevski',tarih:'MS 1864'},
+  {soz:'Dünya iyileri değil, güçlüleri ödüllendirir.',kisi:'Nietzsche',tarih:'MS 1883'},
+  {soz:'Çoğu insan düşünmekten kaçar çünkü düşünmek acıtır.',kisi:'Bertrand Russell',tarih:'MS 1950'},
+  {soz:'Gerçeği aramak cesaret ister, çünkü gerçek her zaman güzel değildir.',kisi:'Dostoyevski',tarih:'MS 1866'},
+  {soz:'İnsanlar seni değiştiremezseler seni yok etmeye çalışırlar.',kisi:'Nietzsche',tarih:'MS 1885'},
+  {soz:'Bir insan ne kadar az bilirse o kadar kesin konuşur.',kisi:'Bertrand Russell',tarih:'MS 1948'},
+  {soz:'Kalabalık her zaman yanılır; çünkü doğru olmak kolay değildir.',kisi:'Sokrates',tarih:'MÖ 400'},
+  {soz:'Çoğunluğun onayı doğruluğun kanıtı değildir.',kisi:'Sokrates',tarih:'MÖ 399'},
+  {soz:'Acıyı kabul etmeyenler, büyümeyi de reddeder.',kisi:'Carl Jung',tarih:'MS 1930'},
+  {soz:'İktidar yalnız güçlü olana verilmez, onu almayı bilene verilir.',kisi:'Machiavelli',tarih:'MS 1513'},
+  {soz:'Güçlü olmak yetmez, gücünü doğru yerde kullanmayı bil.',kisi:'Marcus Aurelius',tarih:'MS 175'},
+  {soz:'Kral olmak isteyen, önce kendine hükmetmeyi öğrenir.',kisi:'Platon',tarih:'MÖ 380'},
+  {soz:'Güce sahip olan konuşmaz; konuşan henüz güce sahip değildir.',kisi:'Machiavelli',tarih:'MS 1513'},
+  {soz:'İktidar insanı değiştirmez, onu ortaya çıkarır.',kisi:'Abraham Lincoln',tarih:'MS 1863'},
+  {soz:'Zayıf lider affeder, güçlü lider hesap sorar.',kisi:'Julius Caesar',tarih:'MÖ 48'},
+  {soz:'Korku geçici bir silah; saygı kalıcı bir zırhdır.',kisi:'Machiavelli',tarih:'MS 1513'},
+  {soz:'En büyük güç, ihtiyaç duymamaktır.',kisi:'Seneca',tarih:'MS 60'},
+  {soz:'Gücünü göstermek zorunda kalıyorsan, gücünü zaten kaybetmişsindir.',kisi:'Machiavelli',tarih:'MS 1513'},
+  {soz:'Tahta oturan değil, tahtı elinde tutan kazanır.',kisi:'Otto von Bismarck',tarih:'MS 1870'},
+  {soz:'Düşen kalkar; kalkmayan zaten düşmemiştir, çürümüştür.',kisi:'Nietzsche',tarih:'MS 1883'},
+  {soz:'Fırtınada eğilen ağaç, dimdik duran kayadan daha uzun yaşar.',kisi:'Lao Tzu',tarih:'MÖ 500'},
+  {soz:'Hayatta kalan en güçlü değil, en uyumlu olandır.',kisi:'Charles Darwin',tarih:'MS 1859'},
+  {soz:'Karanlık ne kadar uzun olursa olsun, şafak mutlaka söker.',kisi:'Viktor Frankl',tarih:'MS 1946'},
+  {soz:'Acı geçer, ama vazgeçmenin pişmanlığı ömür boyu sürer.',kisi:'Viktor Frankl',tarih:'MS 1946'},
+  {soz:'Direnç kas gibidir; kullandıkça güçlenir.',kisi:'Marcus Aurelius',tarih:'MS 170'},
+  {soz:'Çukura düştüğünde kazma durur, tırmanmaya başlarsın.',kisi:'Winston Churchill',tarih:'MS 1940'},
+  {soz:'En büyük zafer, bir kez daha ayağa kalkmaktır.',kisi:'Nelson Mandela',tarih:'MS 1994'},
+  {soz:'Yıkılmak sonu değildir; yıkılmış kalmak öyledir.',kisi:'Ernest Hemingway',tarih:'MS 1952'},
+  {soz:'Savaşmaktan yorulabilirsin ama pes etmek yasak.',kisi:'Miyamoto Musashi',tarih:'MS 1645'},
+  {soz:'Güçlü olan acı çekmez; acıya rağmen devam edendir.',kisi:'Marcus Aurelius',tarih:'MS 175'},
   {soz:'İmkânsız, korkakların sözlüğünde bulunur.',kisi:'Napolyon Bonaparte',tarih:'MS 1804'},
   {soz:'Hız, taktiklerin ruhudur.',kisi:'Napolyon Bonaparte',tarih:'MS 1805'},
   {soz:'Savaşta en önemli şey hızdır.',kisi:'Napolyon Bonaparte',tarih:'MS 1806'},
@@ -378,7 +502,6 @@ const sozler = [
   {soz:'Kendini tanı.',kisi:'Sokrates',tarih:'MÖ 410'},
   {soz:'Mükemmellik bir eylem değil, bir alışkanlıktır.',kisi:'Aristoteles',tarih:'MÖ 350'},
   {soz:'İnsan doğası gereği bilmek ister.',kisi:'Aristoteles',tarih:'MÖ 350'},
-  {soz:'Uçuruma uzun süre bakarsan, uçurum da sana bakar.',kisi:'Nietzsche',tarih:'MS 1886'},
   {soz:'Güçlü olan hayatta kalır, güçlü olmayan yok olur.',kisi:'Nietzsche',tarih:'MS 1883'},
   {soz:'Kendini aşmayan insan, yerinde sayar.',kisi:'Nietzsche',tarih:'MS 1885'},
   {soz:'Karanlıkla yüzleşmezsen, aydınlığa ulaşamazsın.',kisi:'Carl Jung',tarih:'MS 1912'},
@@ -402,12 +525,15 @@ const sozler = [
   {soz:'Bu gökler, bu yollar beni nasıl affedecek?',kisi:'Erkan Aktürk',tarih:'MS 2025'},
 ];
 
-let deck = shuffle(sozler), di = 0;
+let deck = shuffle(sozler);
+let di = Math.floor(Math.random() * deck.length);
 
 function nextIdx() {
   if (di >= deck.length) { deck = shuffle(sozler); di = 0; }
   return di++;
 }
+
+let sozInterval = null;
 
 function showSoz(i) {
   const s = document.getElementById('sinSoz');
@@ -415,14 +541,15 @@ function showSoz(i) {
   const t = document.getElementById('sinTarih');
   s.classList.remove('on'); k.classList.remove('on'); t.classList.remove('on');
   s.textContent = ''; k.textContent = ''; t.textContent = '';
+  if (sozInterval) { clearInterval(sozInterval); sozInterval = null; }
   setTimeout(() => {
     const txt = '"' + deck[i].soz + '"';
     let j = 0;
     s.classList.add('on');
-    const iv = setInterval(() => {
+    sozInterval = setInterval(() => {
       if (j < txt.length) { s.textContent += txt[j++]; }
       else {
-        clearInterval(iv);
+        clearInterval(sozInterval); sozInterval = null;
         setTimeout(() => {
           k.textContent = '— ' + deck[i].kisi; k.classList.add('on');
           setTimeout(() => { t.textContent = deck[i].tarih; t.classList.add('on'); }, 200);
@@ -433,7 +560,22 @@ function showSoz(i) {
 }
 
 showSoz(nextIdx());
-setInterval(() => showSoz(nextIdx()), 7500);
+setInterval(() => showSoz(nextIdx()), 8500);
+
+
+// ── SEKME DEĞİŞİNCE DÜZELT ──
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    const s = document.getElementById('sinSoz');
+    const k = document.getElementById('sinKisi');
+    const t = document.getElementById('sinTarih');
+    if (sozInterval) { clearInterval(sozInterval); sozInterval = null; }
+    if (s) { s.textContent = ''; s.classList.remove('on'); }
+    if (k) { k.textContent = ''; k.classList.remove('on'); }
+    if (t) { t.textContent = ''; t.classList.remove('on'); }
+    setTimeout(() => showSoz(nextIdx()), 300);
+  }
+});
 
 
 // ── İSTATİSTİK ──
