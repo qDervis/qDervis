@@ -539,16 +539,19 @@ function showSoz(i) {
   const s = document.getElementById('sinSoz');
   const k = document.getElementById('sinKisi');
   const t = document.getElementById('sinTarih');
+  if (!s) return;
   s.classList.remove('on'); k.classList.remove('on'); t.classList.remove('on');
   s.textContent = ''; k.textContent = ''; t.textContent = '';
   if (sozInterval) { clearInterval(sozInterval); sozInterval = null; }
+
   setTimeout(() => {
     const txt = '"' + deck[i].soz + '"';
     let j = 0;
-    s.classList.add('on');
     sozInterval = setInterval(() => {
-      if (j < txt.length) { s.textContent += txt[j++]; }
-      else {
+      if (j < txt.length) {
+        s.textContent += txt[j++];
+        if (!s.classList.contains('on')) s.classList.add('on');
+      } else {
         clearInterval(sozInterval); sozInterval = null;
         setTimeout(() => {
           k.textContent = '— ' + deck[i].kisi; k.classList.add('on');
@@ -556,7 +559,7 @@ function showSoz(i) {
         }, 320);
       }
     }, 36);
-  }, 380);
+  }, 400);
 }
 
 showSoz(nextIdx());
