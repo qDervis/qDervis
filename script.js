@@ -3,6 +3,8 @@
 // ============================================================
 
 // ── CURSOR ──
+// ── CURSOR ──
+if (window.matchMedia('(pointer: fine)').matches) {
 const cd = document.getElementById('cd');
 const cr = document.getElementById('cr');
 let mx = 0, my = 0, rx = 0, ry = 0;
@@ -29,6 +31,9 @@ document.querySelectorAll('a, button, .proj-item, .soc-item, .gal-item').forEach
 
 
 // ── CURSOR İZ EFEKTİ ──
+if (window.matchMedia('(pointer: fine)').matches) {
+  requestAnimationFrame(izTick);
+} // mobilde çalışmaz
 const izler = [];
 const IZ_SAYISI = 12;
 for (let i = 0; i < IZ_SAYISI; i++) {
