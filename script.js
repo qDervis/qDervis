@@ -2,66 +2,67 @@
 // script.js — M.D. Tate Portfolyo
 // ============================================================
 
-// ── CURSOR ──
-// ── CURSOR ──
-if (window.matchMedia('(pointer: fine)').matches) {
-const cd = document.getElementById('cd');
-const cr = document.getElementById('cr');
-let mx = 0, my = 0, rx = 0, ry = 0;
+// ── CURSOR (sadece mouse olan cihazlarda) ──
+const isMouse = window.matchMedia('(pointer: fine)').matches;
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX;
-  my = e.clientY;
-  cd.style.left = mx + 'px';
-  cd.style.top  = my + 'px';
-});
+if (isMouse) {
+  const cd = document.getElementById('cd');
+  const cr = document.getElementById('cr');
+  let mx = 0, my = 0, rx = 0, ry = 0;
 
-(function tick() {
-  rx += (mx - rx) * .11;
-  ry += (my - ry) * .11;
-  cr.style.left = rx + 'px';
-  cr.style.top  = ry + 'px';
-  requestAnimationFrame(tick);
-})();
-
-document.querySelectorAll('a, button, .proj-item, .soc-item, .gal-item').forEach(el => {
-  el.addEventListener('mouseenter', () => { cd.classList.add('hover'); cr.classList.add('hover'); });
-  el.addEventListener('mouseleave', () => { cd.classList.remove('hover'); cr.classList.remove('hover'); });
-});
-
-
-// ── CURSOR İZ EFEKTİ ──
-if (window.matchMedia('(pointer: fine)').matches) {
-  requestAnimationFrame(izTick);
-} // mobilde çalışmaz
-const izler = [];
-const IZ_SAYISI = 12;
-for (let i = 0; i < IZ_SAYISI; i++) {
-  const iz = document.createElement('div');
-  iz.style.cssText = `
-    position:fixed;pointer-events:none;z-index:99990;
-    width:${6 - i * 0.4}px;height:${6 - i * 0.4}px;
-    background:rgba(201,168,76,${0.35 - i * 0.025});
-    border-radius:50%;top:0;left:0;
-    transform:translate(-50%,-50%);
-    transition:opacity .3s;
-  `;
-  document.body.appendChild(iz);
-  izler.push({ el: iz, x: 0, y: 0 });
-}
-
-(function izTick() {
-  let px = mx, py = my;
-  izler.forEach((iz, i) => {
-    const nx = px + (iz.x - px) * (0.35 + i * 0.04);
-    const ny = py + (iz.y - py) * (0.35 + i * 0.04);
-    iz.x = nx; iz.y = ny;
-    iz.el.style.left = nx + 'px';
-    iz.el.style.top  = ny + 'px';
-    px = nx; py = ny;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    cd.style.left = mx + 'px';
+    cd.style.top  = my + 'px';
   });
-  requestAnimationFrame(izTick);
-})();
+
+  (function tick() {
+    rx += (mx - rx) * .11;
+    ry += (my - ry) * .11;
+    cr.style.left = rx + 'px';
+    cr.style.top  = ry + 'px';
+    requestAnimationFrame(tick);
+  })();
+
+  document.querySelectorAll('a, button, .proj-item, .soc-item, .gal-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { cd.classList.add('hover'); cr.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cd.classList.remove('hover'); cr.classList.remove('hover'); });
+  });
+
+  // ── CURSOR İZ EFEKTİ ──
+  const izler = [];
+  const IZ_SAYISI = 12;
+  let izMx = 0, izMy = 0;
+
+  document.addEventListener('mousemove', e => { izMx = e.clientX; izMy = e.clientY; });
+
+  for (let i = 0; i < IZ_SAYISI; i++) {
+    const iz = document.createElement('div');
+    iz.style.cssText = `
+      position:fixed;pointer-events:none;z-index:99990;
+      width:${6 - i * 0.4}px;height:${6 - i * 0.4}px;
+      background:rgba(201,168,76,${0.35 - i * 0.025});
+      border-radius:50%;top:0;left:0;
+      transform:translate(-50%,-50%);
+    `;
+    document.body.appendChild(iz);
+    izler.push({ el: iz, x: 0, y: 0 });
+  }
+
+  (function izTick() {
+    let px = izMx, py = izMy;
+    izler.forEach((iz, i) => {
+      const nx = px + (iz.x - px) * (0.35 + i * 0.04);
+      const ny = py + (iz.y - py) * (0.35 + i * 0.04);
+      iz.x = nx; iz.y = ny;
+      iz.el.style.left = nx + 'px';
+      iz.el.style.top  = ny + 'px';
+      px = nx; py = ny;
+    });
+    requestAnimationFrame(izTick);
+  })();
+}
 
 
 // ── PARALLAX ──
@@ -103,13 +104,15 @@ window.addEventListener('scroll', () => {
 // ── SAYFA GEÇİŞ ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', function (e) {
-    const t = document.querySelector(this.getAttribute('href'));
+    const href = this.getAttribute('href');
+    if (!href || href === '#') return;
+    const t = document.querySelector(href);
     if (!t) return;
     e.preventDefault();
     const pt = document.getElementById('pt');
     pt.classList.add('in');
     setTimeout(() => {
-      t.scrollIntoView({ behavior: 'instant' });
+      t.scrollIntoView({ behavior: 'auto' });
       pt.classList.remove('in');
       pt.classList.add('out');
       setTimeout(() => pt.classList.remove('out'), 700);
@@ -548,7 +551,6 @@ function showSoz(i) {
   s.classList.remove('on'); k.classList.remove('on'); t.classList.remove('on');
   s.textContent = ''; k.textContent = ''; t.textContent = '';
   if (sozInterval) { clearInterval(sozInterval); sozInterval = null; }
-
   setTimeout(() => {
     const txt = '"' + deck[i].soz + '"';
     let j = 0;
