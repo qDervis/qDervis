@@ -95,9 +95,12 @@ const gInt = setInterval(() => {
 }, 75);
 
 
-// ── NAV ──
+// ── NAV + PROGRESS BAR ──
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
+  const max = document.body.scrollHeight - window.innerHeight;
+  const pct = (window.scrollY / max) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
 });
 
 
