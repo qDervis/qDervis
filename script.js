@@ -75,25 +75,15 @@ window.addEventListener('scroll', () => {
 
 
 // ── LOADING ──
-const gBar = document.getElementById('g-bar');
-const gPct = document.getElementById('g-pct');
-let pct = 0;
+setTimeout(() => {
+  document.getElementById('g-logo').classList.add('show');
+}, 300);
 
-const gInt = setInterval(() => {
-  pct += Math.random() * 13 + 3;
-  if (pct >= 100) {
-    pct = 100;
-    clearInterval(gInt);
-    setTimeout(() => {
-      const g = document.getElementById('giris');
-      g.classList.add('kapani');
-      setTimeout(() => g.style.display = 'none', 900);
-    }, 350);
-  }
-  gBar.style.width = pct + '%';
-  gPct.textContent = Math.floor(pct);
-}, 75);
-
+setTimeout(() => {
+  const g = document.getElementById('giris');
+  g.classList.add('kapani');
+  setTimeout(() => g.style.display = 'none', 800);
+}, 2000);
 
 // ── NAV + PROGRESS BAR ──
 window.addEventListener('scroll', () => {
