@@ -492,8 +492,6 @@ const sozler = [
   {soz:'Tarih, cesur olanların yanında durur.',kisi:'Winston Churchill',tarih:'MS 1940'},
   {soz:'İstanbul fethedilebilir, çünkü ben inanıyorum.',kisi:'Fatih Sultan Mehmet',tarih:'MS 1453'},
   {soz:'Ya büyük bir devlet kurarım ya da büyük bir devlet için ölürüm.',kisi:'Fatih Sultan Mehmet',tarih:'MS 1453'},
-  {soz:'Korkuyu yenersen her şeyi yenersin.',kisi:'Selahaddin Eyyubi',tarih:'MS 1187'},
-  {soz:'Merhamet güçsüzlük değil, güç göstergesidir.',kisi:'Selahaddin Eyyubi',tarih:'MS 1187'},
   {soz:'Fethetmek yetmez, tutmak gerekir.',kisi:'Yavuz Sultan Selim',tarih:'MS 1514'},
   {soz:'Adalet mülkün temelidir.',kisi:'Kanuni Sultan Süleyman',tarih:'MS 1520'},
   {soz:'Kanla yazılan tarih, mürekkeple silinmez.',kisi:'Attila Hun',tarih:'MS 450'},
