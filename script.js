@@ -796,3 +796,42 @@ document.querySelector('.f1soz-btn.next').addEventListener('click', () => f1SozG
 window.addEventListener('load', () => {
   setTimeout(() => { f1SozGoster(0); f1ProgressSifirla(); }, 800);
 });
+
+// ── TEMA SEÇİCİ ──
+const temalar = ['tema-lacivert', 'tema-siyah', 'tema-mor'];
+const temaIsimleri = ['LAC', 'SİY', 'MOR'];
+
+function temaUygula(tema) {
+  document.body.classList.remove(...temalar);
+  if (tema !== 'tema-lacivert') document.body.classList.add(tema);
+  localStorage.setItem('tema', tema);
+  document.querySelectorAll('.tema-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.tema === tema);
+  });
+}
+
+// Nav'a tema butonları ekle
+const temaWrap = document.createElement('div');
+temaWrap.style.cssText = 'display:flex;gap:4px;padding:4px;border-radius:100px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);';
+temalar.forEach((t, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tema-btn';
+  btn.dataset.tema = t;
+  btn.textContent = temaIsimleri[i];
+  btn.style.cssText = 'padding:5px 12px;border-radius:100px;border:none;cursor:pointer;font-size:9px;letter-spacing:2px;font-family:"DM Sans",sans-serif;font-weight:700;background:transparent;color:rgba(255,255,255,.4);transition:all .3s;';
+  btn.addEventListener('click', () => temaUygula(t));
+  btn.addEventListener('mouseenter', () => { if (!btn.classList.contains('on')) btn.style.color = 'rgba(255,255,255,.8)'; });
+  btn.addEventListener('mouseleave', () => { if (!btn.classList.contains('on')) btn.style.color = 'rgba(255,255,255,.4)'; });
+  temaWrap.appendChild(btn);
+});
+
+// ON class stili
+const temaStyle = document.createElement('style');
+temaStyle.textContent = `.tema-btn.on{background:var(--altin)!important;color:var(--koyu)!important;}`;
+document.head.appendChild(temaStyle);
+
+document.querySelector('.nav-links').after(temaWrap);
+
+// Kayıtlı temayı yükle
+const kayitliTema = localStorage.getItem('tema') || 'tema-lacivert';
+temaUygula(kayitliTema);

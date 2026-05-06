@@ -379,3 +379,32 @@ footer{padding:80px 64px 44px;border-top:1px solid rgba(255,255,255,.05);}
 .pt.out .pt-logo{opacity:0;transition-delay:0s;}
 
 .sec,.sec-sm,.sinema,[id]{scroll-margin-top:80px;}
+
+/* ── TEMA SİSTEMİ ── */
+body.tema-siyah{
+  --altin:#C9A84C;
+  --altin2:#e8c96a;
+  --koyu:#0a0a0a;
+  --koyu2:#0a0a0a;
+  --beyaz:#f0ede8;
+  --gri:#5a6a7a;
+  --gri2:#8899aa;
+  --gl-bg:linear-gradient(135deg,rgba(201,168,76,0.07) 0%,rgba(201,168,76,0.02) 100%);
+  --gl-border:rgba(201,168,76,0.1);
+  --gl-border-top:rgba(201,168,76,0.22);
+  --gl-inner:linear-gradient(to bottom,rgba(201,168,76,0.03),transparent);
+}
+body.tema-mor{
+  --altin:#c4b5fd;
+  --altin2:#ddd6fe;
+  --koyu:#0d0a1a;
+  --koyu2:#120920;
+  --beyaz:#e2d9f3;
+  --gri:#6b5b8a;
+  --gri2:#9d8fbc;
+  --gl-bg:linear-gradient(135deg,rgba(196,181,253,0.07) 0%,rgba(196,181,253,0.02) 100%);
+  --gl-border:rgba(196,181,253,0.1);
+  --gl-border-top:rgba(196,181,253,0.22);
+  --gl-inner:linear-gradient(to bottom,rgba(196,181,253,0.03),transparent);
+}
+body.tema-siyah,.tema-mor{background:var(--koyu);}
