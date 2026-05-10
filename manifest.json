@@ -1,0 +1,24 @@
+{
+  "name": "Muhammed Derviş Tate — Portfolyo",
+  "short_name": "M.D.T",
+  "description": "Muhammed Derviş Tate kişisel portfolyo sitesi",
+  "start_url": "/qDervis/",
+  "display": "standalone",
+  "background_color": "#080f1e",
+  "theme_color": "#C9A84C",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

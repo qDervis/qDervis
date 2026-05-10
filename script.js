@@ -835,3 +835,10 @@ document.querySelector('.nav-links').after(temaWrap);
 // Kayıtlı temayı yükle
 const kayitliTema = localStorage.getItem('tema') || 'tema-lacivert';
 temaUygula(kayitliTema);
+
+// ── PWA ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/qDervis/sw.js');
+  });
+}
