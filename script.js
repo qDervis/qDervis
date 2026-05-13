@@ -518,10 +518,10 @@ const sozler = [
   {soz:'Savaş, politikanın başka araçlarla devamıdır.',kisi:'Clausewitz',tarih:'MS 1832'},
   {soz:'En iyi savunma, taarruztur.',kisi:'George Washington',tarih:'MS 1776'},
   {soz:'Tarihi yapanlar, onu yazanlar değil, yaşayanlardır.',kisi:'Otto von Bismarck',tarih:'MS 1870'},
-  {soz:'Kalkmayan götü kimse kaldıramaz.',kisi:'Erkan Aktürk',tarih:'MS 2025'},
-  {soz:'Şu an tek sorun burada olmamız.',kisi:'Erkan Aktürk',tarih:'MS 2025'},
-  {soz:'Geçer miyim la?',kisi:'Erkan Aktürk',tarih:'MS 2025'},
-  {soz:'Bu gökler, bu yollar beni nasıl affedecek?',kisi:'Erkan Aktürk',tarih:'MS 2025'},
+  {soz:'Kalkmayan götü kimse kaldıramaz.',kisi:'Çoban Erkan',tarih:'MS 2025'},
+  {soz:'Şu an tek sorun burada olmamız.',kisi:'Çoban Erkan',tarih:'MS 2025'},
+  {soz:'Geçer miyim la?',kisi:'Çoban Erkan',tarih:'MS 2025'},
+  {soz:'Bu gökler, bu yollar beni nasıl affedecek?',kisi:'Çoban Erkan',tarih:'MS 2025'},
 ];
 
 let deck = shuffle(sozler);
