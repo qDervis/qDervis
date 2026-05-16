@@ -798,8 +798,8 @@ window.addEventListener('load', () => {
 });
 
 // ── TEMA SEÇİCİ ──
-const temalar = ['tema-lacivert', 'tema-siyah', 'tema-mor'];
-const temaIsimleri = ['LAC', 'SİY', 'MOR'];
+const temalar = ['tema-lacivert', 'tema-siyah', 'tema-mor', 'tema-krem'];
+const temaIsimleri = ['LAC', 'SİY', 'MOR', 'KREM'];
 
 function temaUygula(tema) {
   document.body.classList.remove(...temalar);
